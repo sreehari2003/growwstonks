@@ -14,7 +14,8 @@ interface Response {
   metadata: string;
   last_updated: string;
   top_gainers: Data[];
-  top_loosers: Data[];
+  top_losers: Data[];
+  most_actively_traded: Data[];
 }
 
 const getAllStocks = async () => {

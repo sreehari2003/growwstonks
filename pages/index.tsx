@@ -9,7 +9,7 @@ const Home: NextPageWithLayout = () => {
   const [activeTab, setActiveTab] = useState<Tabs>("gainers");
   return (
     <section className="m-10 px-16">
-      <div className="w-screen flex gap-2">
+      <div className="flex gap-2">
         <Tab
           activeTab={activeTab}
           label="Top Gainers"

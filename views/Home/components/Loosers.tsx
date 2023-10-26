@@ -20,8 +20,8 @@ export const Loosers = () => {
 
   return (
     <div className="flex gap-6 flex-wrap mt-5">
-      <div className="flex gap-6 flex-wrap mt-5">
-        {data?.top_loosers.map((el) => (
+      <div className="flex gap-6 flex-wrap">
+        {data?.top_losers.map((el) => (
           <Card
             key={el.ticker}
             name={el.ticker}
