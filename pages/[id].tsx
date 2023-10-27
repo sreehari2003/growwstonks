@@ -60,9 +60,8 @@ const Stock: NextPageWithLayout = ({
   res,
   route,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  console.log("name is", route);
   return (
-    <main className="mb-4 p-16 pt-10 ml-40">
+    <main className="mb-4 md:p-16 pt-10 md:ml-40 w-full">
       <TopBar name={d.Name} assetType={d.AssetType} exchange={d.Exchange} />
       <Chart id={route} />
       <Footer

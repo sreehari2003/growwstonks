@@ -5,9 +5,9 @@ import { useDailyStock } from "@app/hooks/api";
 export const StockNav = () => {
   const { data, isLoading, error } = useDailyStock();
 
-  if (isLoading) {
+  if (true) {
     return (
-      <div className="w-40 flex gap-6 flex-col p-5 h-screen overflow-y-scroll">
+      <div className="w-40 gap-6 flex-col  h-screen px-3 fixed hidden md:flex mt-3">
         <h5 className="text-center">Top Gainers</h5>
         <Skelton />
         <Skelton />
@@ -21,7 +21,7 @@ export const StockNav = () => {
 
   if (error) {
     return (
-      <aside className="px-3 fixed">
+      <aside className="px-3 fixed hidden md:block">
         <h5 className="text-center mt-4">Trending</h5>
         <div className=" overflow-y-scroll gap-6 m-5 flex flex-col h-[90vh] px-3 justify-center items-center">
           <span className="text-red-500">error occured</span>
@@ -31,7 +31,7 @@ export const StockNav = () => {
   }
 
   return (
-    <aside className="px-3 fixed">
+    <aside className="px-3 fixed hidden md:block">
       <h5 className="text-center mt-4">Trending</h5>
       <div className=" overflow-y-scroll gap-6 m-5 flex flex-col h-[90vh] px-3">
         {data?.most_actively_traded.map((el) => (

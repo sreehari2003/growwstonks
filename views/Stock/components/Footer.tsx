@@ -31,7 +31,7 @@ export const Footer = ({
           Sector: {sector}
         </span>
       </div>
-      <section className="stats flex justify-between p-5">
+      <section className="stats flex justify-between p-5 flex-wrap gap-3">
         <div className="flex flex-col">
           <span>Market Cap</span>
           <span className="font-semibold">{marketCapitalization}</span>
