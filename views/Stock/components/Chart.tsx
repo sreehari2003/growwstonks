@@ -55,14 +55,20 @@ const data = {
 };
 
 export const Chart = ({ id }: Prop) => {
+  const { isLoading, data: res } = useIntraDay(id);
   const dates = useMemo(() => {
-    return Object.entries(data).map((el) => el[0]);
-  }, []);
+    if (res) {
+      return Object.entries(res).map((el) => el[0]);
+    } else {
+      return [];
+    }
+  }, [res]);
   const values = useMemo(() => {
-    return Object.entries(data).map((el) => el[1]["2. high"]);
-  }, []);
-
-  const { isLoading } = useIntraDay(id);
+    if (res) {
+      return Object.entries(res).map((el) => el[1]["2. high"]);
+    }
+    return [];
+  }, [res]);
 
   return (
     <div className="h-[400px] mb-8 p-5">
@@ -101,6 +107,20 @@ export const Chart = ({ id }: Prop) => {
           }}
         />
       )}
+      <div className="inline-flex gap-4 mt-3 ml-4 border-2 px-4 rounded-2xl">
+        <span className="hover:cursor-pointer border-2 px-2 rounded-2xl">
+          day
+        </span>
+        <span className="hover:cursor-pointer border-2 px-2 rounded-2xl">
+          week
+        </span>
+        <span className="hover:cursor-pointer border-2 px-2 rounded-2xl">
+          month
+        </span>
+        <span className="hover:cursor-pointer border-2 px-2 rounded-2xl">
+          year
+        </span>
+      </div>
     </div>
   );
 };

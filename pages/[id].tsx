@@ -59,23 +59,33 @@ const d = {
 const Stock: NextPageWithLayout = ({
   res,
   route,
+  price,
+  change,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <main className="mb-4 md:p-16 pt-10 md:ml-40 w-full">
-      <TopBar name={d.Name} assetType={d.AssetType} exchange={d.Exchange} />
+      <TopBar
+        name={res.Name}
+        assetType={res.AssetType}
+        exchange={res.Exchange}
+        price={price}
+        change={change}
+      />
       <Chart id={route} />
       <Footer
-        name={d.Name}
-        symbol={d.Symbol}
-        description={d.Description}
-        weekLow52={d["52WeekLow"]}
-        weekHigh52={d["52WeekHigh"]}
+        name={res.Name}
+        symbol={res.Symbol}
+        description={res.Description}
+        weekLow52={res["52WeekLow"]}
+        weekHigh52={res["52WeekHigh"]}
         marketCapitalization={d.MarketCapitalization}
-        peRatio={d.PERatio}
-        pegRatio={d.PEGRatio}
-        beta={d.Beta}
-        sector={d.Sector}
-        industry={d.Industry}
+        peRatio={res.PERatio}
+        pegRatio={res.PEGRatio}
+        beta={res.Beta}
+        sector={res.Sector}
+        industry={res.Industry}
+        divident={res.DividendYield}
+        profitMargin={res.ProfitMargin}
       />
     </main>
   );
@@ -86,24 +96,26 @@ Stock.Layout = StockLayout;
 export default Stock;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { id } = ctx.query;
+  const { id, price, change } = ctx.query;
 
-  //   const endPoint = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${id}&apikey=fghdjkgdhfjgfdjkgk`;
+  const endPoint = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${id}&apikey=fghdjkgdhfjgfdjkgk`;
 
-  //   const data = await fetch(endPoint);
+  const data = await fetch(endPoint);
 
-  //   const res = await data.json();
+  const res = await data.json();
 
-  //   if (res["Information"]) {
-  //     return {
-  //       notFound: true,
-  //     };
-  //   }
+  // if (res["Information"]) {
+  //   return {
+  //     notFound: true,
+  //   };
+  // }
 
   return {
     props: {
-      res: [],
+      res: d,
       route: id as string,
+      price: "$ " + price,
+      change: change + "%",
     },
   };
 };

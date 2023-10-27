@@ -5,7 +5,7 @@ import { useDailyStock } from "@app/hooks/api";
 export const StockNav = () => {
   const { data, isLoading, error } = useDailyStock();
 
-  if (true) {
+  if (isLoading) {
     return (
       <div className="w-40 gap-6 flex-col  h-screen px-3 fixed hidden md:flex mt-3">
         <h5 className="text-center">Top Gainers</h5>

@@ -3,9 +3,9 @@ import { TopNav } from "./components";
 
 export const HomeLayout = ({ children }: Child) => {
   return (
-    <main>
+    <section>
       <TopNav />
       {children}
-    </main>
+    </section>
   );
 };

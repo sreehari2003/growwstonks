@@ -2,9 +2,11 @@ interface Props {
   name: string;
   exchange: string;
   assetType: string;
+  price: string;
+  change: string;
 }
 
-export const TopBar = ({ name, exchange, assetType }: Props) => {
+export const TopBar = ({ name, exchange, assetType, price, change }: Props) => {
   return (
     <div className="flex justify-between p-5">
       <div className="flex flex-col justify-start">
@@ -13,8 +15,8 @@ export const TopBar = ({ name, exchange, assetType }: Props) => {
         <span>{exchange}</span>
       </div>
       <div className="flex flex-col justify-start">
-        <span>{assetType}</span>
-        <span>{exchange}</span>
+        <span>{price}</span>
+        <span>{change}</span>
       </div>
     </div>
   );

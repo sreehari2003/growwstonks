@@ -1,7 +1,9 @@
 export const StockStatus = ({ val }: { val: string }) => {
-  if (Number(val) > 0) {
-    return <div className="text-green-500">Gain</div>;
+  const score = val.split("%")[0];
+
+  if (Number(score) > 0) {
+    return <span className="text-green-500">{val}</span>;
   } else {
-    return <div>Loose</div>;
+    return <span className="text-red-400">{val}</span>;
   }
 };

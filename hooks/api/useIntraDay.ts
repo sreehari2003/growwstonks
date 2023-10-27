@@ -17,7 +17,7 @@ const getAllDailyStocks = async (cmp: string) => {
   if (data["Information"]) {
     throw new Error();
   }
-  return data["Time Series (Daily)"] as Response;
+  return data["Time Series (Daily)"];
 };
 
 export const useIntraDay = (name: string) => {
