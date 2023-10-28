@@ -32,7 +32,7 @@ export const StockNav = () => {
 
   return (
     <aside className="px-3 fixed hidden md:block">
-      <h5 className="text-center mt-4">Trending</h5>
+      <h5 className="text-center mt-4 font-semibold">Trending Stocks</h5>
       <div className=" overflow-y-scroll gap-6 m-5 flex flex-col h-[90vh] px-3">
         {data?.most_actively_traded.map((el) => (
           <Card

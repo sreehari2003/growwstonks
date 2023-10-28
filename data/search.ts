@@ -3,7 +3,7 @@ export const DummySearch = {
     {
       "1. symbol": "TSCO.LON",
       "2. name": "Tesco PLC",
-      "3. type": "Equity",
+      "3. type": "ETF",
       "4. region": "United Kingdom",
       "5. marketOpen": "08:00",
       "6. marketClose": "16:30",
@@ -47,7 +47,7 @@ export const DummySearch = {
     {
       "1. symbol": "TCO0.FRK",
       "2. name": "TESCO PLC LS-0633333",
-      "3. type": "Equity",
+      "3. type": "ETF",
       "4. region": "Frankfurt",
       "5. marketOpen": "08:00",
       "6. marketClose": "20:00",

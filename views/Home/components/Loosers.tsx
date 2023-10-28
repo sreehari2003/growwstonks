@@ -19,17 +19,15 @@ export const Loosers = () => {
   }
 
   return (
-    <div className="flex gap-6 flex-wrap mt-5">
-      <div className="flex gap-6 flex-wrap">
-        {data?.top_losers.map((el) => (
-          <Card
-            key={el.ticker}
-            name={el.ticker}
-            change={el.change_percentage}
-            price={el.price}
-          />
-        ))}
-      </div>
+    <div className="flex gap-6 flex-col mt-5 md:flex-wrap md:flex-row">
+      {data?.top_losers.map((el) => (
+        <Card
+          key={el.ticker}
+          name={el.ticker}
+          change={el.change_percentage}
+          price={el.price}
+        />
+      ))}
     </div>
   );
 };

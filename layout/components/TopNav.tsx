@@ -5,6 +5,7 @@ import { StockOutlined, SearchOutlined } from "@ant-design/icons";
 import { ENV, apiHandler } from "@app/config";
 import { debounce } from "@app/hooks/useDeboune";
 import { Dialog, DialogTrigger, DialogContent } from "@app/components/Dialog";
+import { DummySearch } from "@app/data/search";
 
 export const TopNav = () => {
   const [searchData, setSearchData] = useState<Record<string, string>[]>([]);
@@ -83,7 +84,13 @@ export const TopNav = () => {
 
     if (tags.includes(el)) {
       const updatedItems = tags.filter((item) => item !== el);
+
+      if (updatedItems.length < 1) {
+        setTags(["all"]);
+        return;
+      }
       setTags(updatedItems);
+
       return;
     }
     setTags((d) => [...d, el]);
@@ -169,7 +176,7 @@ export const TopNav = () => {
             <div>
               <span>Recent search</span>
               <hr className="mt-2" />
-              <div className="overflow-y-scroll h-36">
+              <div className="overflow-y-scroll max-h-10">
                 {recent.map((el) => (
                   <DialogTrigger asChild key={el}>
                     <div
@@ -187,34 +194,31 @@ export const TopNav = () => {
           {!isLoading && timeOut && (
             <span>API Time out happened please try again tomorrow</span>
           )}
-
-          {!isLoading &&
-            searchData.length > 0 &&
-            !timeOut &&
-            searchData.map((el) => {
-              if (tags.includes("all")) {
-                return (
-                  <DialogTrigger asChild key={el["1. symbol"]}>
-                    <div
-                      className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
-                      onClick={() =>
-                        router.push(`/${el["1. symbol"].toLocaleUpperCase()}`)
-                      }
-                    >
-                      <span>{el["1. symbol"]}</span>
-                      <span>{el["2. name"]}</span>
-                    </div>
-                  </DialogTrigger>
-                );
-              }
-              if (
-                (tags.includes("ETF") &&
+          <div className="overflow-y-scroll h-40">
+            {!isLoading &&
+              searchData.length > 0 &&
+              !timeOut &&
+              searchData.map((el) => {
+                if (tags.includes("all")) {
+                  return (
+                    <DialogTrigger asChild key={el["1. symbol"]}>
+                      <div
+                        className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
+                        onClick={() =>
+                          router.push(`/${el["1. symbol"].toLocaleUpperCase()}`)
+                        }
+                      >
+                        <span>{el["1. symbol"]}</span>
+                        <span>{el["2. name"]}</span>
+                      </div>
+                    </DialogTrigger>
+                  );
+                } else if (
+                  tags.includes("ETF") &&
                   tags.includes("Equity") &&
-                  el["3. type"] === "ETF") ||
-                el["3. type"] === "Equity"
-              ) {
-                return (
-                  <DialogTrigger asChild key={el["1. symbol"]}>
+                  (el["3. type"] === "ETF" || el["3. type"] === "Equity")
+                ) {
+                  const newLocal = (
                     <div
                       className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
                       onClick={() =>
@@ -224,41 +228,46 @@ export const TopNav = () => {
                       <span>{el["1. symbol"]}</span>
                       <span>{el["2. name"]}</span>
                     </div>
-                  </DialogTrigger>
-                );
-              }
-
-              if (tags.includes("ETF") && el["3. type"] === "ETF") {
-                return (
-                  <DialogTrigger asChild key={el["1. symbol"]}>
-                    <div
-                      className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
-                      onClick={() =>
-                        router.push(`/${el["1. symbol"].toLocaleUpperCase()}`)
-                      }
-                    >
-                      <span>{el["1. symbol"]}</span>
-                      <span>{el["2. name"]}</span>
-                    </div>
-                  </DialogTrigger>
-                );
-              }
-              if (tags.includes("stock") && el["3. type"] === "Equity") {
-                return (
-                  <DialogTrigger asChild key={el["1. symbol"]}>
-                    <div
-                      className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
-                      onClick={() =>
-                        router.push(`/${el["1. symbol"].toLocaleUpperCase()}`)
-                      }
-                    >
-                      <span>{el["1. symbol"]}</span>
-                      <span>{el["2. name"]}</span>
-                    </div>
-                  </DialogTrigger>
-                );
-              }
-            })}
+                  );
+                  return (
+                    <DialogTrigger asChild key={el["1. symbol"]}>
+                      {newLocal}
+                    </DialogTrigger>
+                  );
+                } else if (tags.includes("ETF") && el["3. type"] === "ETF") {
+                  return (
+                    <DialogTrigger asChild key={el["1. symbol"]}>
+                      <div
+                        className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
+                        onClick={() =>
+                          router.push(`/${el["1. symbol"].toLocaleUpperCase()}`)
+                        }
+                      >
+                        <span>{el["1. symbol"]}</span>
+                        <span>{el["2. name"]}</span>
+                      </div>
+                    </DialogTrigger>
+                  );
+                } else if (
+                  tags.includes("Equity") &&
+                  el["3. type"] === "Equity"
+                ) {
+                  return (
+                    <DialogTrigger asChild key={el["1. symbol"]}>
+                      <div
+                        className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
+                        onClick={() =>
+                          router.push(`/${el["1. symbol"].toLocaleUpperCase()}`)
+                        }
+                      >
+                        <span>{el["1. symbol"]}</span>
+                        <span>{el["2. name"]}</span>
+                      </div>
+                    </DialogTrigger>
+                  );
+                }
+              })}
+          </div>
         </DialogContent>
       </Dialog>
     </nav>

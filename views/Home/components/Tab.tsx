@@ -13,7 +13,7 @@ export const Tab = <T,>({
 }: props<T>) => {
   return (
     <span
-      className={`font-bold hover:cursor-pointer ${
+      className={`font-bold hover:cursor-pointer text-sm md:text-lg ${
         activeTab === value ? "border-orange-900 border-b-2 " : ""
       }`}
       onClick={() => setActiveTab(value)}

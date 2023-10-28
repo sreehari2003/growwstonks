@@ -25,6 +25,7 @@ export const filterAndFormatChartData = (
 
       filteredData = chartData.filter((item: any) => {
         const itemDate = new Date(item[0]);
+
         return itemDate >= sevenDaysAgo && itemDate <= currentDate;
       });
       break;
