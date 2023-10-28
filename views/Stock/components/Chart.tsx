@@ -1,7 +1,7 @@
-import { useStockHistory } from "@app/hooks/api";
-import { Chart } from "react-google-charts";
 import { useMemo, useState } from "react";
+import { Chart } from "react-google-charts";
 
+import { useStockHistory } from "@app/hooks/api";
 import { ChartType } from "@app/types";
 import { filterAndFormatChartData } from "@app/utils/filterChartData";
 
@@ -9,56 +9,28 @@ type Prop = {
   id: string;
 };
 
-const res = {
-  "2023-10-25": {
-    "1. open": "137.5000",
-    "2. high": "138.4900",
-    "3. low": "136.3300",
-    "4. close": "137.0800",
-    "5. volume": "6472549",
-  },
-  "2023-10-24": {
-    "1. open": "136.7400",
-    "2. high": "137.9800",
-    "3. low": "136.0500",
-    "4. close": "137.7900",
-    "5. volume": "3697975",
-  },
-  "2023-10-23": {
-    "1. open": "136.6300",
-    "2. high": "137.6800",
-    "3. low": "135.8700",
-    "4. close": "136.3800",
-    "5. volume": "3457527",
-  },
-  "2023-10-20": {
-    "1. open": "138.1500",
-    "2. high": "139.2700",
-    "3. low": "137.1200",
-    "4. close": "137.1600",
-    "5. volume": "4865615",
-  },
-};
-
 export const ChartView = ({ id }: Prop) => {
-  // const { isLoading, data: res } = useStockHistory(id);
+  const { isLoading, data: res } = useStockHistory(id);
 
   const [timeSpan, setTimeSpan] = useState<ChartType>(ChartType["7d"]);
-  let isLoading = false;
 
   const data = useMemo(() => {
-    const dataArray = Object.entries(res).map(([date, values]) => {
-      return [
-        date,
-        values["1. open"],
-        values["2. high"],
-        values["3. low"],
-        values["4. close"],
-      ];
-    });
+    if (res) {
+      const dataArray = Object.entries(res).map(([date, values]) => {
+        return [
+          date,
+          values["1. open"],
+          values["2. high"],
+          values["3. low"],
+          values["4. close"],
+        ];
+      });
 
-    return filterAndFormatChartData(timeSpan, dataArray);
-  }, [timeSpan]);
+      return filterAndFormatChartData(timeSpan, dataArray);
+    } else {
+      return [];
+    }
+  }, [timeSpan, res]);
 
   return (
     <div className="h-[400px] mb-8 p-5">
@@ -85,7 +57,6 @@ export const ChartView = ({ id }: Prop) => {
           </div>
         </div>
       ) : (
-        // <h1>test</h1>
         <Chart chartType="Line" height="100%" data={data} options={options} />
       )}
       <div className="inline-flex  mt-3 ml-4 border-2  rounded-md">
@@ -133,10 +104,10 @@ const options = {
     },
   },
   animation: {
-    duration: 1000, // Animation duration in milliseconds
-    easing: "out", // Easing function
-    startup: true, // Enable animation on startup
-    trigger: "user", // Animation triggered by user interactions
+    duration: 1000,
+    easing: "out",
+    startup: true,
+    trigger: "user",
   },
   backgroundColor: "#FFFFFF",
   hAxis: {

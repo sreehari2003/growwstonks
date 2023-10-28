@@ -80,6 +80,16 @@ since the code is only 2 page i have made sure not to use unwanted dependecy , b
 
 
 
+
+
+### Dependency
+
+<img src="./public//assets/deps.png"/>
+
+
+
+
+
 ### Prerequisites
 
 You need to install

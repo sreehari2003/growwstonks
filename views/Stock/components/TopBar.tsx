@@ -16,10 +16,12 @@ export const TopBar = ({ name, exchange, assetType, price, change }: Props) => {
         <span>{assetType}</span>
         <span>{exchange}</span>
       </div>
-      <div className="flex flex-col justify-start">
-        <span>{price}</span>
-        <StockStatus val={change} />
-      </div>
+      {!price.includes("undefined") && !change.includes("undefined") && (
+        <div className="flex flex-col justify-start">
+          <span>{price}</span>
+          <StockStatus val={change} />
+        </div>
+      )}
     </div>
   );
 };

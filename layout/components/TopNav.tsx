@@ -1,25 +1,46 @@
-import { ChangeEvent, useState } from "react";
 import Link from "next/link";
-import { Dialog, DialogTrigger, DialogContent } from "@app/components/Dialog";
+import { ChangeEvent, useState } from "react";
+import { useRouter } from "next/router";
+import { StockOutlined, SearchOutlined } from "@ant-design/icons";
+import { ENV, apiHandler } from "@app/config";
 import { debounce } from "@app/hooks/useDeboune";
-import { apiHandler } from "@app/config";
-import { StockOutlined } from "@ant-design/icons";
+import { Dialog, DialogTrigger, DialogContent } from "@app/components/Dialog";
 
 export const TopNav = () => {
-  const [searchData, setSearchData] = useState("");
+  const [searchData, setSearchData] = useState<Record<string, string>[]>([]);
 
   const [tags, setTags] = useState<Array<string>>(["all"]);
 
+  const [timeOut, setTimeOut] = useState(false);
+
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleSearch = debounce((e: ChangeEvent<HTMLInputElement>) => {
+  const router = useRouter();
+
+  const handleSearch = debounce(async (e: ChangeEvent<HTMLInputElement>) => {
     setIsLoading(true);
 
     let input = e.target?.value;
-    setSearchData(input);
 
     // handle error here
-    if (!searchData) return;
+    if (!input) return;
+
+    try {
+      const { data } = await apiHandler.get(
+        `query?function=SYMBOL_SEARCH&keywords=${input}&apikey=${ENV.api_token}`
+      );
+
+      if (data["Information"]) {
+        throw new Error();
+      }
+
+      setSearchData(data.bestMatches);
+      setTimeOut(false);
+    } catch {
+      setTimeOut(true);
+    } finally {
+      setIsLoading(false);
+    }
 
     // call nessecery api here
   });
@@ -50,7 +71,7 @@ export const TopNav = () => {
     <nav className="border-3 flex py-10  px-5 h-20 bg-orange-800  items-center justify-around">
       <Link href="/">
         <div className="flex gap-2">
-          <h3 className="text-sm md:text-xl lg:text-2xl text-yellow-50">
+          <h3 className="text-md md:text-xl lg:text-2xl text-yellow-50">
             GrowwStonks
           </h3>
           <h3 className="text-sm md:text-xl lg:text-2xl text-yellow-50">
@@ -61,10 +82,13 @@ export const TopNav = () => {
       <Dialog>
         <DialogTrigger asChild>
           <div className="rounded-3xl p-2  md:p-3 focus:outline-none w-[180px] md:w-[350px]  bg-orange-950 placeholder:text-gray-300 text-white hover:cursor-pointer">
-            Search stock and etf
+            <div className="flex items-center gap-1 md:gap-2">
+              <SearchOutlined className="text-sm md:text-lg" />
+              <span className="text-sm md:text-lg">Search stock and etf</span>
+            </div>
           </div>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] bg-white">
+        <DialogContent className="sm:max-w-[425px] bg-white rounded-xl">
           <input
             onChange={handleSearch}
             className="rounded-xl p-2 w-full md:p-3 focus:outline-none  md:w-[350px]  bg-orange-950 placeholder:text-gray-300 text-white"
@@ -119,12 +143,29 @@ export const TopNav = () => {
               </div>
             </div>
           )}
-          {!searchData.length && !isLoading && (
+          {!searchData.length && !isLoading && !timeOut && (
             <div>
               <span>Recent search</span>
               <hr className="mt-2" />
             </div>
           )}
+          {!isLoading && timeOut && (
+            <span>API Time out happened please try again tomorrow</span>
+          )}
+
+          {!isLoading &&
+            searchData.length &&
+            !timeOut &&
+            searchData.map((el) => (
+              <div
+                key={el["1. symbol"]}
+                className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
+                onClick={() => router.push(`/${el["1. symbol"]}`)}
+              >
+                <span>{el["1. symbol"]}</span>
+                <span>{el["2. name"]}</span>
+              </div>
+            ))}
         </DialogContent>
       </Dialog>
     </nav>
