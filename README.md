@@ -9,6 +9,7 @@
 - React query
 - Tailwind css
 - Radix ui for dialog
+- Ant icons
 ### Folder structure
 
 ```
@@ -30,9 +31,9 @@ project structure/
 ## Project
 
 
-* Layout structue
+### Layout structue
 
- to prevent repetition of code i have used special type layout structure for each layout when we does this
+ - to prevent repetition of code i have used special type layout structure for each layout when we does this
 
   ```js
      
@@ -41,7 +42,7 @@ export default Home;
 
   ```
 
- in _app.tsx it wraps the code like this
+-  in _app.tsx it wraps the code like this
 
  ```js
       {Component.Layout ? (
@@ -55,9 +56,28 @@ export default Home;
 
 ```
 
-* Bundle size
+### Bundle size
 
 since the code is only 2 page i have made sure not to use unwanted dependecy , becuase of this the total bundle size is very less
+
+### Server side rendering
+
+- the more info page is loaded via server side rendering , it fetch the company info before the  page is renderd
+
+### Typescript
+- code is 100% type defined , this helps for better maintainibilty
+
+
+
+### Images
+
+<img src="./public//assets/stock.png"/>
+<img src="./public//assets/gain.png"/>
+<img src="./public//assets/loosers.png"/>
+<img src="./public//assets/load.png"/>
+
+
+
 
 
 ### Prerequisites

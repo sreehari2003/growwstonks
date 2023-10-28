@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-const debounce = (fn: Function, ms = 2000) => {
+export const debounce = (fn: Function, ms = 2000) => {
   let timeoutId: ReturnType<typeof setTimeout>;
   // eslint-disable-next-line func-names
   return function (this: any, ...args: any[]) {

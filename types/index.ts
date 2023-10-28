@@ -15,3 +15,11 @@ export type Response = {
   Sector: string;
   Industry: string;
 };
+
+export enum ChartType {
+  "24h",
+  "7d",
+  "1m",
+  "1y",
+  "10y",
+}

@@ -11,8 +11,8 @@ interface Response {
   };
 }
 
-const getAllDailyStocks = async (cmp: string) => {
-  const endPoint = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${cmp}&apikey=${ENV.api_token}`;
+const getStockHistory = async (cmp: string) => {
+  const endPoint = `https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY_ADJUSTED&symbol=${cmp}&apikey=${ENV.api_token}`;
   const { data } = await apiHandler.get(endPoint);
   if (data["Information"]) {
     throw new Error();
@@ -20,10 +20,10 @@ const getAllDailyStocks = async (cmp: string) => {
   return data["Time Series (Daily)"];
 };
 
-export const useIntraDay = (name: string) => {
+export const useStockHistory = (name: string) => {
   const events = useQuery<Response>({
     queryKey: ["intraday"],
-    queryFn: () => getAllDailyStocks(name),
+    queryFn: () => getStockHistory(name),
   });
   return events;
 };

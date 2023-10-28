@@ -1,3 +1,5 @@
+import { StockStatus } from "@app/components/StockStatus";
+
 interface Props {
   name: string;
   exchange: string;
@@ -16,7 +18,7 @@ export const TopBar = ({ name, exchange, assetType, price, change }: Props) => {
       </div>
       <div className="flex flex-col justify-start">
         <span>{price}</span>
-        <span>{change}</span>
+        <StockStatus val={change} />
       </div>
     </div>
   );

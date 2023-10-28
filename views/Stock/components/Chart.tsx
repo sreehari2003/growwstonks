@@ -1,29 +1,15 @@
-import { useIntraDay } from "@app/hooks/api/useIntraDay";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  PointElement,
-  LineElement,
-} from "chart.js";
-import { useMemo } from "react";
-import { Line } from "react-chartjs-2";
+import { useStockHistory } from "@app/hooks/api";
+import { Chart } from "react-google-charts";
+import { useMemo, useState } from "react";
 
-// Register ChartJS components using ChartJS.register
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip
-);
+import { ChartType } from "@app/types";
+import { filterAndFormatChartData } from "@app/utils/filterChartData";
 
 type Prop = {
   id: string;
 };
 
-const data = {
+const res = {
   "2023-10-25": {
     "1. open": "137.5000",
     "2. high": "138.4900",
@@ -54,21 +40,25 @@ const data = {
   },
 };
 
-export const Chart = ({ id }: Prop) => {
-  const { isLoading, data: res } = useIntraDay(id);
-  const dates = useMemo(() => {
-    if (res) {
-      return Object.entries(res).map((el) => el[0]);
-    } else {
-      return [];
-    }
-  }, [res]);
-  const values = useMemo(() => {
-    if (res) {
-      return Object.entries(res).map((el) => el[1]["2. high"]);
-    }
-    return [];
-  }, [res]);
+export const ChartView = ({ id }: Prop) => {
+  // const { isLoading, data: res } = useStockHistory(id);
+
+  const [timeSpan, setTimeSpan] = useState<ChartType>(ChartType["7d"]);
+  let isLoading = false;
+
+  const data = useMemo(() => {
+    const dataArray = Object.entries(res).map(([date, values]) => {
+      return [
+        date,
+        values["1. open"],
+        values["2. high"],
+        values["3. low"],
+        values["4. close"],
+      ];
+    });
+
+    return filterAndFormatChartData(timeSpan, dataArray);
+  }, [timeSpan]);
 
   return (
     <div className="h-[400px] mb-8 p-5">
@@ -95,32 +85,68 @@ export const Chart = ({ id }: Prop) => {
           </div>
         </div>
       ) : (
-        <Line
-          data={{
-            labels: dates,
-            datasets: [
-              {
-                data: values,
-                backgroundColor: "purple",
-              },
-            ],
-          }}
-        />
+        // <h1>test</h1>
+        <Chart chartType="Line" height="100%" data={data} options={options} />
       )}
-      <div className="inline-flex gap-4 mt-3 ml-4 border-2 px-4 rounded-2xl">
-        <span className="hover:cursor-pointer border-2 px-2 rounded-2xl">
-          day
+      <div className="inline-flex  mt-3 ml-4 border-2  rounded-md">
+        <span
+          className={`hover:cursor-pointer border-r-2 px-2 ${
+            timeSpan === ChartType["7d"] ? "bg-orange-500 text-white" : ""
+          }`}
+          onClick={() => setTimeSpan(ChartType["7d"])}
+        >
+          7d
         </span>
-        <span className="hover:cursor-pointer border-2 px-2 rounded-2xl">
-          week
+        <span
+          className={`hover:cursor-pointer border-x-2 px-2 ${
+            timeSpan === ChartType["1m"] ? "bg-orange-500 text-white" : ""
+          }`}
+          onClick={() => setTimeSpan(ChartType["1m"])}
+        >
+          1m
         </span>
-        <span className="hover:cursor-pointer border-2 px-2 rounded-2xl">
-          month
+        <span
+          className={`hover:cursor-pointer border-x-2 px-2 ${
+            timeSpan === ChartType["1y"] ? "bg-orange-500 text-white" : ""
+          }`}
+          onClick={() => setTimeSpan(ChartType["1y"])}
+        >
+          1y
         </span>
-        <span className="hover:cursor-pointer border-2 px-2 rounded-2xl">
-          year
+        <span
+          className={`hover:cursor-pointer border-l-2 px-2 ${
+            timeSpan === ChartType["10y"] ? "bg-orange-500 text-white" : ""
+          }`}
+          onClick={() => setTimeSpan(ChartType["10y"])}
+        >
+          10y
         </span>
       </div>
     </div>
   );
+};
+
+const options = {
+  legend: {
+    textStyle: {
+      color: "#A8A29E",
+    },
+  },
+  animation: {
+    duration: 1000, // Animation duration in milliseconds
+    easing: "out", // Easing function
+    startup: true, // Enable animation on startup
+    trigger: "user", // Animation triggered by user interactions
+  },
+  backgroundColor: "#FFFFFF",
+  hAxis: {
+    textStyle: {
+      color: "#A8A29E",
+    },
+  },
+  vAxis: {
+    textStyle: {
+      color: "#A8A29E",
+    },
+  },
 };

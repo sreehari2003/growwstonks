@@ -1,5 +1,5 @@
 import { StockLayout } from "@app/layout";
-import { Footer, TopBar, Chart } from "@app/views/Stock";
+import { Footer, TopBar, ChartView } from "@app/views/Stock";
 import {
   GetServerSideProps,
   InferGetServerSidePropsType,
@@ -71,7 +71,7 @@ const Stock: NextPageWithLayout = ({
         price={price}
         change={change}
       />
-      <Chart id={route} />
+      <ChartView id={route} />
       <Footer
         name={res.Name}
         symbol={res.Symbol}
@@ -104,15 +104,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const res = await data.json();
 
-  // if (res["Information"]) {
-  //   return {
-  //     notFound: true,
-  //   };
-  // }
+  if (res["Information"]) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
-      res: d,
+      res: res,
       route: id as string,
       price: "$ " + price,
       change: change + "%",
