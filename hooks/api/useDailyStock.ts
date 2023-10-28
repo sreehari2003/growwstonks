@@ -1,6 +1,7 @@
 import { apiHandler } from "@app/config";
 import { useQuery } from "@tanstack/react-query";
 import { TOP_GAINERS_AND_LOSERS } from "@app/config/endpoints";
+import { stock } from "@app/data/stock";
 
 type Data = {
   ticker: string;
@@ -24,6 +25,7 @@ const getAllStocks = async () => {
     throw new Error();
   }
   return data;
+  // return stock;
 };
 
 export const useDailyStock = () => {

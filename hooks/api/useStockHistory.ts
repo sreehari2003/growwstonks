@@ -17,7 +17,7 @@ const getStockHistory = async (cmp: string) => {
   if (data["Information"]) {
     throw new Error();
   }
-  return data["Time Series (Daily)"];
+  return data["Weekly Adjusted Time Series"];
 };
 
 export const useStockHistory = (name: string) => {

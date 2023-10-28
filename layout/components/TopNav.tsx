@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { StockOutlined, SearchOutlined } from "@ant-design/icons";
 import { ENV, apiHandler } from "@app/config";
@@ -8,18 +8,27 @@ import { Dialog, DialogTrigger, DialogContent } from "@app/components/Dialog";
 
 export const TopNav = () => {
   const [searchData, setSearchData] = useState<Record<string, string>[]>([]);
+  const [recent, setRecent] = useState<string[]>([]);
+
+  useEffect(() => {
+    const history = localStorage.getItem("history");
+
+    if (history) {
+      setRecent(JSON.parse(history) as unknown as string[]);
+    }
+  }, []);
 
   const [tags, setTags] = useState<Array<string>>(["all"]);
 
   const [timeOut, setTimeOut] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
   const handleSearch = debounce(async (e: ChangeEvent<HTMLInputElement>) => {
     setIsLoading(true);
-
+    setSearchData([]);
     let input = e.target?.value;
 
     // handle error here
@@ -41,6 +50,10 @@ export const TopNav = () => {
     } finally {
       setIsLoading(false);
     }
+
+    setRecent([...recent, input]);
+
+    localStorage.setItem("history", JSON.stringify([...recent, input]));
 
     // call nessecery api here
   });
@@ -147,6 +160,17 @@ export const TopNav = () => {
             <div>
               <span>Recent search</span>
               <hr className="mt-2" />
+              <div className="overflow-y-scroll h-36">
+                {recent.map((el) => (
+                  <div
+                    key={el}
+                    className="border-b-2 pb-2 hover:cursor-pointer max-h-10 overflow-y-scroll"
+                    onClick={() => router.push(`/${el.toUpperCase()}`)}
+                  >
+                    <span className="text-red-600">{el}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
           {!isLoading && timeOut && (
@@ -154,18 +178,24 @@ export const TopNav = () => {
           )}
 
           {!isLoading &&
-            searchData.length &&
+            searchData.length > 0 &&
             !timeOut &&
-            searchData.map((el) => (
-              <div
-                key={el["1. symbol"]}
-                className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
-                onClick={() => router.push(`/${el["1. symbol"]}`)}
-              >
-                <span>{el["1. symbol"]}</span>
-                <span>{el["2. name"]}</span>
-              </div>
-            ))}
+            searchData.map((el) => {
+              if (tags.includes("all")) {
+                return (
+                  <div
+                    key={el["1. symbol"]}
+                    className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
+                    onClick={() =>
+                      router.push(`/${el["1. symbol"].toLocaleUpperCase()}`)
+                    }
+                  >
+                    <span>{el["1. symbol"]}</span>
+                    <span>{el["2. name"]}</span>
+                  </div>
+                );
+              }
+            })}
         </DialogContent>
       </Dialog>
     </nav>

@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Chart } from "react-google-charts";
+import { ChartData } from "@app/data/chart";
 
 import { useStockHistory } from "@app/hooks/api";
 import { ChartType } from "@app/types";

@@ -1,6 +1,7 @@
 import { ENV } from "@app/config";
 import { StockLayout } from "@app/layout";
 import { Footer, TopBar, ChartView } from "@app/views/Stock";
+import { info } from "@app/data/overView";
 import {
   GetServerSideProps,
   InferGetServerSidePropsType,
@@ -57,7 +58,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   if (res["Information"]) {
     return {
-      notFound: true,
+      redirect: {
+        destination: "/500",
+        permanent: true,
+      },
     };
   }
 

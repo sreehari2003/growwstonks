@@ -1,4 +1,4 @@
-![Contributors](https://img.shields.io/github/contributors/sreehari2003/Buzznet.svg?style=for-the-badge)![Forks](https://img.shields.io/github/forks/sreehari2003/growwstonks.svg?style=for-the-badge)![Stargazers](https://img.shields.io/github/stars/sreehari2003/growwstonks.svg?style=for-the-badge)![](https://img.shields.io/github/issues/sreehari2003/growwstonks.svg?style=for-the-badge)![MIT License](https://img.shields.io/github/license/sreehari2003/growwstonks.svg?style=for-the-badge)
+![Contributors](https://img.shields.io/github/contributors/sreehari2003/growwstonks.svg?style=for-the-badge)![Forks](https://img.shields.io/github/forks/sreehari2003/growwstonks.svg?style=for-the-badge)![Stargazers](https://img.shields.io/github/stars/sreehari2003/growwstonks.svg?style=for-the-badge)![](https://img.shields.io/github/issues/sreehari2003/growwstonks.svg?style=for-the-badge)![MIT License](https://img.shields.io/github/license/sreehari2003/growwstonks.svg?style=for-the-badge)
 
 ### Internship task for groww.in
 
