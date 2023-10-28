@@ -11,7 +11,7 @@ type Prop = {
 };
 
 export const ChartView = ({ id }: Prop) => {
-  const { isLoading, data: res } = useStockHistory(id);
+  const { isLoading, data: res, error } = useStockHistory(id);
 
   const [timeSpan, setTimeSpan] = useState<ChartType>(ChartType["7d"]);
 
@@ -37,6 +37,16 @@ export const ChartView = ({ id }: Prop) => {
       return [];
     }
   }, [timeSpan, res]);
+
+  if (error) {
+    return (
+      <div className="border-2 border-red-400 p-4 rounded-md">
+        <h6 className="text-red-400">
+          Api limit exceeded please try again later - Error loading chart
+        </h6>
+      </div>
+    );
+  }
 
   return (
     <div className="h-[400px] mb-8 p-5">
