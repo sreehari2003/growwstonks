@@ -10,6 +10,7 @@ export const TopNav = () => {
   const [searchData, setSearchData] = useState<Record<string, string>[]>([]);
   const [recent, setRecent] = useState<string[]>([]);
 
+  // setting the recent search to state on mount
   useEffect(() => {
     const history = localStorage.getItem("history");
 
@@ -54,9 +55,17 @@ export const TopNav = () => {
     setRecent([...recent, input]);
 
     localStorage.setItem("history", JSON.stringify([...recent, input]));
-
-    // call nessecery api here
   });
+
+  // when timout happens we will show the error and
+  // after 5s back to recent view state
+  useEffect(() => {
+    if (timeOut) {
+      setTimeout(() => {
+        setTimeOut(false);
+      }, 5000);
+    }
+  }, [timeOut]);
 
   const addtag = (el: string) => {
     if (tags.includes("all")) {
@@ -114,15 +123,15 @@ export const TopNav = () => {
               }`}
               onClick={() => addtag("all")}
             >
-              all
+              All
             </div>
             <div
               className={`border-2 p-2 rounded-xl hover:cursor-pointer ${
-                tags.includes("stock") ? "bg-orange-900 text-white" : ""
+                tags.includes("Equity") ? "bg-orange-900 text-white" : ""
               }`}
-              onClick={() => addtag("stock")}
+              onClick={() => addtag("Equity")}
             >
-              Stock
+              Equity
             </div>
             <div
               className={`rounded-xl border-2 p-2 hover:cursor-pointer ${
@@ -162,13 +171,15 @@ export const TopNav = () => {
               <hr className="mt-2" />
               <div className="overflow-y-scroll h-36">
                 {recent.map((el) => (
-                  <div
-                    key={el}
-                    className="border-b-2 pb-2 hover:cursor-pointer max-h-10 overflow-y-scroll"
-                    onClick={() => router.push(`/${el.toUpperCase()}`)}
-                  >
-                    <span className="text-red-600">{el}</span>
-                  </div>
+                  <DialogTrigger asChild key={el}>
+                    <div
+                      key={el}
+                      className="border-b-2 pb-2 hover:cursor-pointer max-h-10 overflow-y-scroll"
+                      onClick={() => router.push(`/${el.toUpperCase()}`)}
+                    >
+                      <span className="text-red-600">{el}</span>
+                    </div>
+                  </DialogTrigger>
                 ))}
               </div>
             </div>
@@ -183,16 +194,68 @@ export const TopNav = () => {
             searchData.map((el) => {
               if (tags.includes("all")) {
                 return (
-                  <div
-                    key={el["1. symbol"]}
-                    className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
-                    onClick={() =>
-                      router.push(`/${el["1. symbol"].toLocaleUpperCase()}`)
-                    }
-                  >
-                    <span>{el["1. symbol"]}</span>
-                    <span>{el["2. name"]}</span>
-                  </div>
+                  <DialogTrigger asChild key={el["1. symbol"]}>
+                    <div
+                      className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
+                      onClick={() =>
+                        router.push(`/${el["1. symbol"].toLocaleUpperCase()}`)
+                      }
+                    >
+                      <span>{el["1. symbol"]}</span>
+                      <span>{el["2. name"]}</span>
+                    </div>
+                  </DialogTrigger>
+                );
+              }
+              if (
+                (tags.includes("ETF") &&
+                  tags.includes("Equity") &&
+                  el["3. type"] === "ETF") ||
+                el["3. type"] === "Equity"
+              ) {
+                return (
+                  <DialogTrigger asChild key={el["1. symbol"]}>
+                    <div
+                      className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
+                      onClick={() =>
+                        router.push(`/${el["1. symbol"].toLocaleUpperCase()}`)
+                      }
+                    >
+                      <span>{el["1. symbol"]}</span>
+                      <span>{el["2. name"]}</span>
+                    </div>
+                  </DialogTrigger>
+                );
+              }
+
+              if (tags.includes("ETF") && el["3. type"] === "ETF") {
+                return (
+                  <DialogTrigger asChild key={el["1. symbol"]}>
+                    <div
+                      className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
+                      onClick={() =>
+                        router.push(`/${el["1. symbol"].toLocaleUpperCase()}`)
+                      }
+                    >
+                      <span>{el["1. symbol"]}</span>
+                      <span>{el["2. name"]}</span>
+                    </div>
+                  </DialogTrigger>
+                );
+              }
+              if (tags.includes("stock") && el["3. type"] === "Equity") {
+                return (
+                  <DialogTrigger asChild key={el["1. symbol"]}>
+                    <div
+                      className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
+                      onClick={() =>
+                        router.push(`/${el["1. symbol"].toLocaleUpperCase()}`)
+                      }
+                    >
+                      <span>{el["1. symbol"]}</span>
+                      <span>{el["2. name"]}</span>
+                    </div>
+                  </DialogTrigger>
                 );
               }
             })}
