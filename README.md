@@ -75,6 +75,8 @@ since the code is only 2 page i have made sure not to use unwanted dependecy , b
 <img src="./public//assets/gain.png"/>
 <img src="./public//assets/loosers.png"/>
 <img src="./public//assets/load.png"/>
+<img src="./public//assets/search.png"/>
+
 
 
 
