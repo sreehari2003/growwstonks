@@ -56,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const res = await data.json();
 
-  if (res["Information"]) {
+  if (!res || res["Information"]) {
     return {
       redirect: {
         destination: "/500",

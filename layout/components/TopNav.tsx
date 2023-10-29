@@ -123,7 +123,7 @@ export const TopNav = () => {
             </div>
           </div>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] bg-white rounded-xl">
+        <DialogContent className="sm:max-w-[425px] bg-white rounded-xl max-h-[400px]">
           <input
             onChange={handleSearch}
             className="rounded-xl p-2 w-full md:p-3 focus:outline-none  md:w-[350px]  bg-orange-950 placeholder:text-gray-300 text-white"
@@ -182,11 +182,10 @@ export const TopNav = () => {
             <div>
               <span>Recent search</span>
               <hr className="mt-2" />
-              <div className="overflow-y-scroll max-h-10">
-                {recent.map((el) => (
-                  <DialogTrigger asChild key={el}>
+              <div className="overflow-y-scroll max-h-[180px] ">
+                {recent.map((el, index) => (
+                  <DialogTrigger asChild key={index}>
                     <div
-                      key={el}
                       className="border-b-2 pb-2 hover:cursor-pointer max-h-10 overflow-y-scroll"
                       onClick={() => goToMain(el.toUpperCase())}
                     >
@@ -198,7 +197,9 @@ export const TopNav = () => {
             </div>
           )}
           {!isLoading && timeOut && (
-            <span>API Time out happened please try again tomorrow</span>
+            <span className="mt-10">
+              API Time out happened please try again tomorrow
+            </span>
           )}
           <div className="overflow-y-scroll h-40">
             {!isLoading &&
