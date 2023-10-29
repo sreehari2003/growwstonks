@@ -32,9 +32,11 @@ project structure/
 ## Demo
 
 
-<video width="1200" height="640" controls>
-  <source src="./public//assets/demo.mov" type="video/mp4">
-</video>
+
+
+https://github.com/sreehari2003/growwstonks/assets/66205494/2729c2de-8e95-4a31-8762-09c1efe362ea
+
+
 
 
 ## Project
