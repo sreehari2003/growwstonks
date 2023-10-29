@@ -13,7 +13,7 @@ type Prop = {
 export const ChartView = ({ id }: Prop) => {
   const { isLoading, data: res, error } = useStockHistory(id);
 
-  const [timeSpan, setTimeSpan] = useState<ChartType>(ChartType["7d"]);
+  const [timeSpan, setTimeSpan] = useState<ChartType>(ChartType["1y"]);
 
   const data = useMemo(() => {
     if (res) {
@@ -29,7 +29,7 @@ export const ChartView = ({ id }: Prop) => {
       let ans = filterAndFormatChartData(timeSpan, dataArray);
 
       if (!ans[1]) {
-        setTimeSpan(ChartType["1y"]);
+        setTimeSpan(ChartType["1m"]);
         return filterAndFormatChartData(timeSpan, dataArray);
       }
       return ans;

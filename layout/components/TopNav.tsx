@@ -96,6 +96,12 @@ export const TopNav = () => {
     setTags((d) => [...d, el]);
   };
 
+  const goToMain = (val: string) => {
+    const t = val.split(".")[0] || val.split(" ")[0];
+
+    router.push(`/${t}`);
+  };
+
   return (
     <nav className="border-3 flex py-10  px-5 h-20 bg-orange-800  items-center justify-around">
       <Link href="/">
@@ -182,7 +188,7 @@ export const TopNav = () => {
                     <div
                       key={el}
                       className="border-b-2 pb-2 hover:cursor-pointer max-h-10 overflow-y-scroll"
-                      onClick={() => router.push(`/${el.toUpperCase()}`)}
+                      onClick={() => goToMain(el.toUpperCase())}
                     >
                       <span className="text-red-600">{el}</span>
                     </div>
@@ -204,12 +210,10 @@ export const TopNav = () => {
                     <DialogTrigger asChild key={el["1. symbol"]}>
                       <div
                         className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
-                        onClick={() =>
-                          router.push(`/${el["1. symbol"].toLocaleUpperCase()}`)
-                        }
+                        onClick={() => goToMain(el["1. symbol"].toUpperCase())}
                       >
                         <span>{el["1. symbol"]}</span>
-                        <span>{el["2. name"]}</span>
+                        {/* <span>{el["2. name"]}</span> */}
                       </div>
                     </DialogTrigger>
                   );
@@ -221,12 +225,10 @@ export const TopNav = () => {
                   const newLocal = (
                     <div
                       className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
-                      onClick={() =>
-                        router.push(`/${el["1. symbol"].toLocaleUpperCase()}`)
-                      }
+                      onClick={() => goToMain(el["1. symbol"].toUpperCase())}
                     >
                       <span>{el["1. symbol"]}</span>
-                      <span>{el["2. name"]}</span>
+                      {/* <span>{el["2. name"]}</span> */}
                     </div>
                   );
                   return (
@@ -239,12 +241,10 @@ export const TopNav = () => {
                     <DialogTrigger asChild key={el["1. symbol"]}>
                       <div
                         className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
-                        onClick={() =>
-                          router.push(`/${el["1. symbol"].toLocaleUpperCase()}`)
-                        }
+                        onClick={() => goToMain(el["1. symbol"].toUpperCase())}
                       >
                         <span>{el["1. symbol"]}</span>
-                        <span>{el["2. name"]}</span>
+                        {/* <span>{el["2. name"]}</span> */}
                       </div>
                     </DialogTrigger>
                   );
@@ -256,12 +256,10 @@ export const TopNav = () => {
                     <DialogTrigger asChild key={el["1. symbol"]}>
                       <div
                         className="flex justify-between border-b-2 pb-3 h-10 hover:cursor-pointer hover:border-red-500"
-                        onClick={() =>
-                          router.push(`/${el["1. symbol"].toLocaleUpperCase()}`)
-                        }
+                        onClick={() => goToMain(el["1. symbol"].toUpperCase())}
                       >
                         <span>{el["1. symbol"]}</span>
-                        <span>{el["2. name"]}</span>
+                        {/* <span>{el["2. name"]}</span> */}
                       </div>
                     </DialogTrigger>
                   );
