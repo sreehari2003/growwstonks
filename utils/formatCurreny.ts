@@ -1,4 +1,7 @@
 export function formatCurrencyShort(amountInUSD: number): string {
+  if (Number.isNaN(amountInUSD)) {
+    return "None";
+  }
   if (amountInUSD >= 1e12) {
     // Convert to trillions
     const amountInTrillions = amountInUSD / 1e12;
